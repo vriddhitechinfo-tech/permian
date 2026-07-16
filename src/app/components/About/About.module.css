@@ -1,0 +1,300 @@
+/* ───────────────────────────────────────────────
+   About / Stats Section
+   ─────────────────────────────────────────────── */
+
+.section {
+  position: relative;
+  background: #080808;
+  padding: 120px 0 100px;
+  overflow: hidden;
+}
+
+/* Subtle red gradient accent — top-right corner */
+.section::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(227, 25, 55, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Split layout ─────────────────────────────── */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+/* ── Left — Image ─────────────────────────────── */
+.imageWrap {
+  position: relative;
+  border-left: 4px solid #E31937;
+  overflow: hidden;
+  border-radius: 6px;
+  will-change: clip-path;
+  clip-path: inset(0 100% 0 0);       /* hidden by default — GSAP reveals */
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+}
+
+/* ── Right — Content ──────────────────────────── */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.label {
+  font-family: var(--font-oswald, 'Oswald', sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #E31937;
+}
+
+.heading {
+  font-family: var(--font-oswald, 'Oswald', sans-serif);
+  font-size: clamp(28px, 3.2vw, 44px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.paragraph {
+  font-family: var(--font-inter, 'Inter', sans-serif);
+  font-size: 16px;
+  line-height: 1.75;
+  color: #b0b0b0;
+}
+
+/* ── Stats Counter Row ────────────────────────── */
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 80px;
+}
+
+.statCard {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 40px 16px;
+  text-align: center;
+  transition: border-color 0.3s ease;
+}
+
+.statCard:hover {
+  border-color: rgba(227, 25, 55, 0.35);
+}
+
+.statNumber {
+  font-family: var(--font-oswald, 'Oswald', sans-serif);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 700;
+  color: #E31937;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.statLabel {
+  font-family: var(--font-inter, 'Inter', sans-serif);
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+/* ── Responsive ───────────────────────────────── */
+@media (max-width: 1024px) {
+  .split {
+    gap: 48px;
+  }
+
+  .statsRow {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 0 64px;
+  }
+
+  .split {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .imageWrap {
+    border-left: none;
+    border-bottom: 4px solid #E31937;
+  }
+
+  .statsRow {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 48px;
+  }
+
+  .statCard {
+    padding: 28px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 64px 0 48px;
+  }
+
+  .statsRow {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* ── Timeline Section ─────────────────────────── */
+.timelineSection {
+  margin-top: 120px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 80px;
+}
+
+.timelineLabel {
+  display: block;
+  text-align: center;
+  font-family: var(--font-oswald, 'Oswald', sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #E31937;
+  margin-bottom: 12px;
+}
+
+.timelineTitle {
+  display: block;
+  text-align: center;
+  font-family: var(--font-oswald, 'Oswald', sans-serif);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0 0 60px 0;
+  letter-spacing: 1px;
+}
+
+.timelineTrack {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  position: relative;
+}
+
+.timelineLine {
+  position: absolute;
+  left: 40px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #222222;
+  z-index: 0;
+}
+
+.timelineEvent {
+  display: flex;
+  gap: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.yearMarker {
+  height: 80px;
+  background-color: #111111;
+  border: 3px solid #E31937;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(227, 25, 55, 0.15);
+}
+
+.yearText {
+  color: #E31937;
+  font-family: var(--font-oswald, 'Oswald', sans-serif);
+  font-size: 1.15rem;
+  font-weight: bold;
+}
+
+.timelineBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.eventTitle {
+  font-family: var(--font-oswald, 'Oswald', sans-serif);
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin: 0 0 10px 0;
+  letter-spacing: 0.5px;
+}
+
+.eventDesc {
+  font-family: var(--font-inter, 'Inter', sans-serif);
+  color: #b0b0b0;
+  line-height: 1.7;
+  margin: 0;
+  font-weight: 300;
+}
+
+@media (max-width: 768px) {
+  .timelineTrack {
+    gap: 40px;
+  }
+
+  .timelineLine {
+    left: 30px;
+  }
+
+  .timelineEvent {
+    gap: 24px;
+  }
+
+  .yearMarker {
+    height: 60px;
+    width: 60px !important; /* override custom auto width on mobile for simplicity */
+    border-radius: 50% !important;
+    padding: 0 !important;
+  }
+
+  .yearText {
+    font-size: 0.95rem;
+  }
+}
+

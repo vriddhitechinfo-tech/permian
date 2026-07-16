@@ -1,0 +1,89 @@
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: all;
+}
+
+/* ── Split panels ─────────────────────────────── */
+.panelTop,
+.panelBottom {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #0a0a0a;
+  will-change: transform;
+}
+
+.panelTop {
+  top: 0;
+}
+
+.panelBottom {
+  bottom: 0;
+}
+
+/* ── Content layer (sits above both panels) ───── */
+.content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  z-index: 2;
+}
+
+/* ── Logo ──────────────────────────────────────── */
+.logoWrap {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+.logo {
+  width: 220px;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (min-width: 768px) {
+  .logo {
+    width: 300px;
+  }
+}
+
+/* ── Red accent line ──────────────────────────── */
+.lineWrap {
+  width: clamp(200px, 60%, 420px);
+  height: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #E31937;
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* ── Counter ──────────────────────────────────── */
+.counter {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  will-change: opacity;
+}

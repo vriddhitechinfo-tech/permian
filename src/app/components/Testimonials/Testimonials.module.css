@@ -1,0 +1,181 @@
+.section {
+  background: #0a0a0a;
+  background-image: radial-gradient(ellipse at 50% 0%, rgba(227, 25, 55, 0.06) 0%, transparent 60%);
+  padding: 100px 20px;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ── Heading ── */
+
+.headingWrapper {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.heading {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+.accentLine {
+  width: 60px;
+  height: 4px;
+  background: #e31937;
+  margin: 16px auto 0;
+  border-radius: 2px;
+}
+
+/* ── Carousel layout ── */
+
+.carousel {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* ── Card ── */
+
+.card {
+  max-width: 700px;
+  width: 100%;
+  text-align: center;
+  padding: 48px 40px;
+  position: relative;
+}
+
+.quoteDecor {
+  font-family: 'Oswald', serif;
+  font-size: 6rem;
+  line-height: 1;
+  color: #e31937;
+  opacity: 0.3;
+  display: block;
+  margin-bottom: -20px;
+  user-select: none;
+}
+
+.quoteText {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  font-style: italic;
+  line-height: 1.8;
+  color: #d4d4d4;
+  margin: 0 0 24px;
+}
+
+.stars {
+  margin-bottom: 20px;
+}
+
+.star {
+  font-size: 1.25rem;
+  color: #f5a623;
+  margin: 0 2px;
+}
+
+.clientName {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 4px;
+  letter-spacing: 0.5px;
+}
+
+.projectType {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #e31937;
+}
+
+/* ── Arrows ── */
+
+.arrow {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid #333333;
+  background: transparent;
+  color: #999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.arrow:hover {
+  background: #e31937;
+  border-color: #e31937;
+  color: #ffffff;
+}
+
+/* ── Dots ── */
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 36px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: #333333;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+  padding: 0;
+}
+
+.dot:hover {
+  background: #666666;
+}
+
+.dotActive {
+  background: #e31937;
+  transform: scale(1.25);
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 600px) {
+  .section {
+    padding: 72px 16px;
+  }
+
+  .card {
+    padding: 32px 16px;
+  }
+
+  .quoteDecor {
+    font-size: 4rem;
+  }
+
+  .arrow {
+    width: 36px;
+    height: 36px;
+  }
+
+  .arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .carousel {
+    gap: 8px;
+  }
+}

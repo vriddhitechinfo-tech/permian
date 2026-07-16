@@ -1,0 +1,176 @@
+/* ── Footer ──────────────────────────────────────── */
+
+.footer {
+  background: #050505;
+  border-top: 1px solid #1a1a1a;
+  padding: 60px 24px 30px;
+}
+
+.footerInner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── Columns ─────────────────────────────────────── */
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  margin-bottom: 48px;
+}
+
+/* Column 1 — Brand */
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.logoWrapper {
+  display: inline-block;
+}
+
+.brandText {
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #777777;
+  line-height: 1.7;
+  max-width: 340px;
+}
+
+/* Column 2 — Quick Links */
+
+.linksColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.columnHeading {
+  font-family: var(--font-oswald), 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding-bottom: 10px;
+  position: relative;
+}
+
+.columnHeading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background: #E31937;
+  border-radius: 1px;
+}
+
+.linksList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.linkItem a {
+  display: inline-block;
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #777777;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.linkItem a:hover {
+  color: #E31937;
+  transform: translateX(6px);
+}
+
+/* Column 3 — Contact */
+
+.contactColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contactIcon {
+  color: #E31937;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.contactItem span,
+.contactItem a {
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #777777;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contactItem a:hover {
+  color: #E31937;
+}
+
+/* ── Footer Bottom ───────────────────────────────── */
+
+.divider {
+  border: none;
+  height: 1px;
+  background: #1a1a1a;
+  margin-bottom: 24px;
+}
+
+.bottomBar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.bottomText {
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #555555;
+  line-height: 1.5;
+}
+
+/* ── Responsive ──────────────────────────────────── */
+
+@media (min-width: 768px) {
+  .footer {
+    padding: 60px 40px 30px;
+  }
+
+  .columns {
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 48px;
+  }
+
+  .bottomBar {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}

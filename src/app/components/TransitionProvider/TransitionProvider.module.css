@@ -1,0 +1,14 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #0a0a0a 0%, #E31937 50%, #000000 100%);
+  z-index: 99999;
+  pointer-events: none;
+}
+
+.pageContent {
+  width: 100%;
+}
