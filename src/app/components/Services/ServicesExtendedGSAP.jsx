@@ -359,7 +359,7 @@ export function ProjectsInMotionHorizontalScroll() {
     }, targetRef.current);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
 
   return (
     <section ref={targetRef} style={{ background: '#000000', overflow: 'hidden', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -564,6 +564,24 @@ export function ServiceSpotlightHoverAccordion() {
 
 // Master Export
 export default function ServicesExtendedGSAP() {
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    // Force a ScrollTrigger refresh after mount and any initial layout shifts
+    const timer1 = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 150);
+
+    const timer2 = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 1200);
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, [isMobile]);
+
   return (
     <>
       <DualRowOpposingScrollMarquee />
