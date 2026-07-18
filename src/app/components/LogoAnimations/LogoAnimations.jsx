@@ -185,6 +185,7 @@ export function Image3DDepthStack() {
   const containerRef = useRef(null);
   const [activeCard, setActiveCard] = useState(0);
   const lastIndexRef = useRef(0);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -218,8 +219,8 @@ export function Image3DDepthStack() {
       });
 
       cards.forEach((card, i) => {
-        const targetX = (i - (total - 1) / 2) * 150;
-        const targetRotate = (i - (total - 1) / 2) * 5;
+        const targetX = (i - (total - 1) / 2) * (isMobile ? 55 : 150);
+        const targetRotate = (i - (total - 1) / 2) * (isMobile ? 3 : 5);
 
         tl.to(card, {
           x: targetX, rotateZ: targetRotate, rotateY: (i - (total - 1) / 2) * 3,
@@ -231,7 +232,7 @@ export function Image3DDepthStack() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
 
   const handleContainerMouseMove = (e) => {
     if (!containerRef.current) return;
@@ -270,8 +271,8 @@ export function Image3DDepthStack() {
     const cards = gsap.utils.toArray('.depth-stack-card');
     const total = cards.length;
     cards.forEach((card, i) => {
-      const targetX = (i - (total - 1) / 2) * 150;
-      const targetRotate = (i - (total - 1) / 2) * 5;
+      const targetX = (i - (total - 1) / 2) * (isMobile ? 55 : 150);
+      const targetRotate = (i - (total - 1) / 2) * (isMobile ? 3 : 5);
       gsap.to(card, {
         x: targetX, y: 0, scale: 1, rotateZ: targetRotate, rotateY: (i - (total - 1) / 2) * 4, rotateX: 0,
         zIndex: total - i, borderColor: 'rgba(227,25,55,0.35)', boxShadow: '0 30px 60px rgba(0,0,0,0.9)',
@@ -311,7 +312,7 @@ export function Image3DDepthStack() {
           ref={containerRef}
           onMouseMove={handleContainerMouseMove}
           onMouseLeave={handleContainerMouseLeave}
-          style={{ position: 'relative', height: '480px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', perspective: '1200px' }}
+          style={{ position: 'relative', height: isMobile ? '400px' : '480px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', perspective: '1200px' }}
         >
           {builderLogos.map((b, i) => (
             <div
@@ -319,7 +320,7 @@ export function Image3DDepthStack() {
               className="depth-stack-card"
               onMouseEnter={() => handleCardMouseEnter(i)}
               style={{
-                position: 'absolute', width: '310px', height: '420px', borderRadius: '24px', overflow: 'hidden',
+                position: 'absolute', width: isMobile ? '260px' : '310px', height: isMobile ? '350px' : '420px', borderRadius: '24px', overflow: 'hidden',
                 border: '1px solid rgba(227,25,55,0.35)', boxShadow: '0 30px 60px rgba(0,0,0,0.9)',
                 transformStyle: 'preserve-3d', willChange: 'transform', cursor: 'pointer',
                 transition: 'border-color 0.3s, box-shadow 0.3s'
@@ -327,7 +328,7 @@ export function Image3DDepthStack() {
             >
               <Image src={b.img} alt={b.name} fill style={{ objectFit: 'cover' }} quality={85} />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 60%)' }} />
-              <div style={{ position: 'absolute', bottom: '24px', left: '24px', right: '24px', textAlign: 'left', zIndex: 10 }}>
+              <div style={{ position: 'absolute', bottom: isMobile ? '16px' : '24px', left: isMobile ? '16px' : '24px', right: isMobile ? '16px' : '24px', textAlign: 'left', zIndex: 10 }}>
                 <div style={{ width: '140px', height: '36px', marginBottom: '10px' }}>{b.svg}</div>
                 <span style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', fontWeight: 900, letterSpacing: '2px', color: '#E31937', textTransform: 'uppercase', display: 'block' }}>{b.badge}</span>
                 <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 900, color: '#fff', textTransform: 'uppercase', margin: '4px 0 0' }}>{b.name}</h4>
@@ -345,6 +346,7 @@ export function Image3DDepthStack() {
 // ───────────────────────────────────────────────────────────────────
 export function ImageCurtainSplit() {
   const sectionRef = useRef(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -374,13 +376,13 @@ export function ImageCurtainSplit() {
           <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 900, color: '#fff', textTransform: 'uppercase', marginBottom: '24px', lineHeight: 1.1 }}>
             WEST TEXAS STRUCTURAL EXCELLENCE
           </h2>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.25rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, marginBottom: '40px' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: isMobile ? '1.05rem' : '1.25rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, marginBottom: '40px' }}>
             When the curtain splits, only structural precision remains. Alonso Cardenas engineered foundations built for heavy trucks, oilfield rigs, and commercial shops.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', maxWidth: '720px', margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: isMobile ? '10px' : '16px', maxWidth: '720px', margin: '0 auto' }}>
             {builderLogos.slice(0, 4).map(b => (
-              <div key={b.id} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(227,25,55,0.35)', borderRadius: '14px', padding: '14px 18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ width: '140px', height: '36px' }}>{b.svg}</div>
+              <div key={b.id} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(227,25,55,0.35)', borderRadius: '14px', padding: isMobile ? '10px' : '14px 18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ width: isMobile ? '110px' : '140px', height: isMobile ? '28px' : '36px' }}>{b.svg}</div>
               </div>
             ))}
           </div>
@@ -411,6 +413,7 @@ export function ImageCurtainSplit() {
 // ───────────────────────────────────────────────────────────────────
 export function ImageFloatingOrbit() {
   const sectionRef = useRef(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -438,7 +441,7 @@ export function ImageFloatingOrbit() {
           </h2>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)', gap: isMobile ? '16px' : '24px' }}>
           {[
             { img: '/images/luxury-driveway-entry.png', title: 'Luxury Driveways', logo: builderLogos[0] },
             { img: '/images/parking-lot-forming.png', title: 'Parking Lot Forming', logo: builderLogos[1] },
@@ -446,7 +449,7 @@ export function ImageFloatingOrbit() {
             { img: '/images/before-warehouse-rebar.png', title: 'Steel Rebar Grid', logo: builderLogos[3] }
           ].map((item, idx) => (
             <div key={idx} className="float-img-item" style={{ background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '20px', padding: '20px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.6)' }}>
-              <div style={{ position: 'relative', height: '220px', borderRadius: '14px', overflow: 'hidden', marginBottom: '16px' }}>
+              <div style={{ position: 'relative', height: isMobile ? '280px' : '220px', borderRadius: '14px', overflow: 'hidden', marginBottom: '16px' }}>
                 <Image src={item.img} alt={item.title} fill style={{ objectFit: 'cover' }} quality={80} />
               </div>
               <div style={{ width: '140px', height: '36px', marginBottom: '10px' }}>{item.logo.svg}</div>
@@ -466,6 +469,7 @@ export function ImageExpandGrid() {
   const sectionRef = useRef(null);
   const [activeIdx, setActiveIdx] = useState(0);
   const lastIndexRef = useRef(0);
+  const isMobile = useIsMobile();
 
   const images = [
     { src: '/images/residential-driveway.png', title: 'Residential Driveways', logo: builderLogos[0] },
@@ -513,16 +517,17 @@ export function ImageExpandGrid() {
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '16px', height: '500px' }}>
+        <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '12px' : '16px', height: isMobile ? 'auto' : '500px' }}>
           {images.map((img, i) => (
             <div
               key={i}
               onClick={() => setActiveIdx(i)}
-              onMouseEnter={() => setActiveIdx(i)}
+              onMouseEnter={() => !isMobile ? setActiveIdx(i) : undefined}
               style={{
-                flex: activeIdx === i ? 3.5 : 1,
+                flex: isMobile ? 'none' : (activeIdx === i ? 3.5 : 1),
+                height: isMobile ? (activeIdx === i ? '260px' : '85px') : '100%',
                 position: 'relative', borderRadius: '24px', overflow: 'hidden',
-                cursor: 'pointer', transition: 'flex 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                cursor: 'pointer', transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
                 border: activeIdx === i ? '2px solid #E31937' : '1px solid rgba(255,255,255,0.08)',
                 boxShadow: activeIdx === i ? '0 20px 40px rgba(227,25,55,0.25)' : 'none'
               }}
@@ -530,9 +535,36 @@ export function ImageExpandGrid() {
               <Image src={img.src} alt={img.title} fill style={{ objectFit: 'cover' }} quality={85} />
               <div style={{ position: 'absolute', inset: 0, background: activeIdx === i ? 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 60%)' : 'rgba(0,0,0,0.65)', transition: 'background 0.4s' }} />
 
-              <div style={{ position: 'absolute', bottom: '24px', left: '24px', right: '24px', zIndex: 5, opacity: activeIdx === i ? 1 : 0.65, transition: 'opacity 0.4s' }}>
-                <div style={{ width: '140px', height: '36px', marginBottom: '10px' }}>{img.logo.svg}</div>
-                <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: activeIdx === i ? '24px' : '15px', fontWeight: 900, color: '#fff', textTransform: 'uppercase', transition: 'font-size 0.4s', margin: 0 }}>
+              <div style={{
+                position: 'absolute',
+                bottom: isMobile ? 'auto' : '24px',
+                top: isMobile && activeIdx !== i ? '50%' : 'auto',
+                transform: isMobile && activeIdx !== i ? 'translateY(-50%)' : 'none',
+                bottom: isMobile && activeIdx === i ? '20px' : 'auto',
+                left: isMobile ? '20px' : '24px',
+                right: isMobile ? '20px' : '24px',
+                zIndex: 5,
+                opacity: activeIdx === i ? 1 : 0.65,
+                transition: 'opacity 0.4s',
+                display: isMobile && activeIdx !== i ? 'flex' : 'block',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '12px'
+              }}>
+                <div style={{
+                  width: isMobile ? (activeIdx === i ? '120px' : '100px') : '140px',
+                  height: isMobile ? (activeIdx === i ? '32px' : '28px') : '36px',
+                  marginBottom: isMobile && activeIdx !== i ? '0' : '10px'
+                }}>{img.logo.svg}</div>
+                <h4 style={{
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: isMobile ? (activeIdx === i ? '18px' : '13px') : (activeIdx === i ? '24px' : '15px'),
+                  fontWeight: 900,
+                  color: '#fff',
+                  textTransform: 'uppercase',
+                  transition: 'font-size 0.4s',
+                  margin: 0
+                }}>
                   {img.title}
                 </h4>
               </div>
