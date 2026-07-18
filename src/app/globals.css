@@ -122,15 +122,24 @@ a {
   .hub-node-grid {
     position: relative !important;
     inset: auto !important;
-    grid-template-columns: 1fr !important;
-    gap: 12px !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
     padding: 0 !important;
   }
   .hub-center-node {
     display: none !important;
   }
   .hub-card {
-    border-radius: 12px !important;
-    padding: 12px 14px !important;
+    border-radius: 10px !important;
+    padding: 10px !important;
+    gap: 8px !important;
+  }
+  .hub-card-title {
+    font-size: 11px !important;
+  }
+  .hub-card-subtitle {
+    font-size: 9px !important;
+    line-height: 1.25 !important;
+    display: block !important;
   }
 }

@@ -309,10 +309,10 @@ export function InteractiveServiceNodeHub() {
                   >
                     <span style={{ fontSize: '20px' }}>{node.icon}</span>
                     <div>
-                      <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '13px', fontWeight: 900, color: isActive ? '#E31937' : '#fff', margin: 0, textTransform: 'uppercase' }}>
+                      <h4 className="hub-card-title" style={{ fontFamily: 'var(--font-heading)', fontSize: '13px', fontWeight: 900, color: isActive ? '#E31937' : '#fff', margin: 0, textTransform: 'uppercase' }}>
                         {node.name}
                       </h4>
-                      <span style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>
+                      <span className="hub-card-subtitle" style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>
                         {node.subtitle}
                       </span>
                     </div>
