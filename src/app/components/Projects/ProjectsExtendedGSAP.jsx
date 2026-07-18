@@ -135,6 +135,7 @@ export function WorkPinnedStickyOverlappingCards() {
   const isMobile = useIsMobile();
 
   useEffect(() => {
+    if (isMobile) return;
     const ctx = gsap.context(() => {
       const cards = gsap.utils.toArray('.sticky-deck-card');
 
@@ -155,7 +156,7 @@ export function WorkPinnedStickyOverlappingCards() {
     }, containerRef.current);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
 
   return (
     <section ref={containerRef} style={{ padding: '120px 0', background: '#050505' }}>
@@ -168,7 +169,7 @@ export function WorkPinnedStickyOverlappingCards() {
           </h2>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '60px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '30px' : '60px' }}>
           {[
             { step: 'PROJECT 01', title: 'Permian Oilfield Equipment Storage Slab', cat: '5,000 PSI HEAVY SLAB', desc: 'Engineered high-compaction slab designed for 100,000+ lb oil rig equipment transport trucks in Midland, TX.', img: '/images/commercial-warehouse.png' },
             { step: 'PROJECT 02', title: 'Somero Laser Screed Industrial Warehouse Floor', cat: 'FLAT FLOOR TOLERANCE', desc: 'Achieved glass-smooth flat floor tolerances across a 48,000 sq ft logistics distribution facility in Odessa, TX.', img: '/images/after-warehouse-slab.png' },
@@ -178,7 +179,7 @@ export function WorkPinnedStickyOverlappingCards() {
               key={i}
               className="sticky-deck-card"
               style={{
-                position: 'sticky', top: isMobile ? '80px' : '120px',
+                position: isMobile ? 'relative' : 'sticky', top: isMobile ? '0px' : '120px',
                 background: 'rgba(12, 12, 12, 0.98)',
                 border: '1px solid rgba(227, 25, 55, 0.3)',
                 borderRadius: isMobile ? '20px' : '28px', padding: isMobile ? '24px' : '40px',

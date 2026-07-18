@@ -215,6 +215,88 @@ export function InteractiveServiceNodeHub() {
 
   return (
     <section style={{ padding: '120px 0', background: '#050505', position: 'relative', overflow: 'hidden' }}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        .hub-grid-columns {
+          display: grid;
+          grid-template-columns: 1fr 1.1fr;
+          gap: 48px;
+          align-items: center;
+        }
+        .hub-node-container {
+          position: relative;
+          min-height: 480px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+        .hub-node-grid {
+          position: absolute;
+          inset: 0;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 24px 80px;
+          padding: 20px;
+          width: 100%;
+        }
+        .hub-center-node {
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          background: radial-gradient(circle, #E31937 0%, #000 80%);
+          border: 2px solid #E31937;
+          box-shadow: 0 0 40px rgba(227,25,55,0.6);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          z-index: 10;
+          text-align: center;
+          padding: 10px;
+        }
+        .hub-card {
+          background: rgba(20, 20, 20, 0.8);
+          border: 1px solid rgba(255, 25, 55, 0.2);
+          border-radius: 16px;
+          padding: 16px 20px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          z-index: 12;
+        }
+        .hub-card.active {
+          background: rgba(227, 25, 55, 0.2) !important;
+          border: 2px solid #E31937 !important;
+          box-shadow: 0 0 25px rgba(227, 25, 55, 0.5) !important;
+        }
+
+        @media (max-width: 768px) {
+          .hub-grid-columns {
+            grid-template-columns: 1fr !important;
+            gap: 32px !important;
+          }
+          .hub-node-container {
+            min-height: auto !important;
+            gap: 20px !important;
+          }
+          .hub-node-grid {
+            position: relative !important;
+            inset: auto !important;
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+            padding: 0 !important;
+          }
+          .hub-center-node {
+            display: none !important;
+          }
+          .hub-card {
+            border-radius: 12px !important;
+            padding: 12px 14px !important;
+          }
+        }
+      `}} />
       <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '0 32px' }}>
         
         {/* HEADER */}
@@ -229,7 +311,7 @@ export function InteractiveServiceNodeHub() {
         </div>
 
         {/* HUB GRID: LEFT SPOTLIGHT + RIGHT NODE ECOSYSTEM */}
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1.1fr', gap: isMobile ? '32px' : '48px', alignItems: 'center' }}>
+        <div className="hub-grid-columns">
           
           {/* LEFT SPOTLIGHT CARD */}
           <div style={{
@@ -286,17 +368,10 @@ export function InteractiveServiceNodeHub() {
           </div>
 
           {/* RIGHT NODE ECOSYSTEM INTERACTIVE GRAPH */}
-          <div style={{ position: 'relative', minHeight: isMobile ? 'auto' : '480px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: isMobile ? '20px' : '0' }}>
+          <div className="hub-node-container">
             
             {/* CENTRAL HUB NODE */}
-            <div style={{
-              width: isMobile ? '90px' : '120px', height: isMobile ? '90px' : '120px', borderRadius: '50%',
-              background: 'radial-gradient(circle, #E31937 0%, #000 80%)',
-              border: '2px solid #E31937',
-              boxShadow: '0 0 40px rgba(227,25,55,0.6)',
-              display: isMobile ? 'none' : 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              zIndex: 10, textAlign: 'center', padding: '10px'
-            }}>
+            <div className="hub-center-node">
               <span style={{ fontSize: '24px', marginBottom: '2px' }}>🏗️</span>
               <span style={{ fontFamily: 'var(--font-heading)', fontSize: '10px', fontWeight: 900, color: '#fff', textTransform: 'uppercase', letterSpacing: '1px' }}>
                 PERMIAN HUB
@@ -304,27 +379,15 @@ export function InteractiveServiceNodeHub() {
             </div>
 
             {/* SURROUNDING SYSTEM NODES */}
-            <div style={{ position: isMobile ? 'relative' : 'absolute', inset: isMobile ? 'auto' : 0, display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : '1fr 1fr', gap: isMobile ? '12px' : '24px 80px', padding: isMobile ? '0' : '20px', width: '100%' }}>
+            <div className="hub-node-grid">
               {HUB_NODES.map((node, i) => {
                 const isActive = node.id === activeId;
                 return (
                   <div
                     key={node.id}
+                    className={`hub-card ${isActive ? 'active' : ''}`}
                     onMouseEnter={() => setActiveId(node.id)}
                     onClick={() => setActiveId(node.id)}
-                    style={{
-                      background: isActive ? 'rgba(227, 25, 55, 0.2)' : 'rgba(20, 20, 20, 0.8)',
-                      border: isActive ? '2px solid #E31937' : '1px solid rgba(255,25,55,0.2)',
-                      boxShadow: isActive ? '0 0 25px rgba(227, 25, 55, 0.5)' : 'none',
-                      borderRadius: isMobile ? '12px' : '16px',
-                      padding: isMobile ? '12px 14px' : '16px 20px',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      zIndex: 12
-                    }}
                   >
                     <span style={{ fontSize: '20px' }}>{node.icon}</span>
                     <div>
