@@ -10,6 +10,18 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// Hook to detect mobile viewport
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < breakpoint);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 // Dummy Project & Service Data
 const OPCOMM_IMAGES_ROW1 = [
   { id: 1, title: 'Permian Logistics Hub', badge: 'INDUSTRIAL', img: '/images/commercial-warehouse.png' },
@@ -186,6 +198,7 @@ export function DualRowOpposingScrollMarquee() {
 export function InteractiveServiceNodeHub() {
   const [activeId, setActiveId] = useState('commerce');
   const activeNode = HUB_NODES.find(n => n.id === activeId) || HUB_NODES[0];
+  const isMobile = useIsMobile();
 
   return (
     <section style={{ padding: '120px 0', background: '#050505', position: 'relative', overflow: 'hidden' }}>
@@ -203,7 +216,7 @@ export function InteractiveServiceNodeHub() {
         </div>
 
         {/* HUB GRID: LEFT SPOTLIGHT + RIGHT NODE ECOSYSTEM */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: '48px', alignItems: 'center' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1.1fr', gap: isMobile ? '32px' : '48px', alignItems: 'center' }}>
           
           {/* LEFT SPOTLIGHT CARD */}
           <div style={{
@@ -260,15 +273,15 @@ export function InteractiveServiceNodeHub() {
           </div>
 
           {/* RIGHT NODE ECOSYSTEM INTERACTIVE GRAPH */}
-          <div style={{ position: 'relative', minHeight: '480px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ position: 'relative', minHeight: isMobile ? 'auto' : '480px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: isMobile ? '20px' : '0' }}>
             
             {/* CENTRAL HUB NODE */}
             <div style={{
-              width: '120px', height: '120px', borderRadius: '50%',
+              width: isMobile ? '90px' : '120px', height: isMobile ? '90px' : '120px', borderRadius: '50%',
               background: 'radial-gradient(circle, #E31937 0%, #000 80%)',
               border: '2px solid #E31937',
               boxShadow: '0 0 40px rgba(227,25,55,0.6)',
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              display: isMobile ? 'none' : 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
               zIndex: 10, textAlign: 'center', padding: '10px'
             }}>
               <span style={{ fontSize: '24px', marginBottom: '2px' }}>🏗️</span>
@@ -278,7 +291,7 @@ export function InteractiveServiceNodeHub() {
             </div>
 
             {/* SURROUNDING SYSTEM NODES */}
-            <div style={{ position: 'absolute', inset: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px 80px', padding: '20px' }}>
+            <div style={{ position: isMobile ? 'relative' : 'absolute', inset: isMobile ? 'auto' : 0, display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : '1fr 1fr', gap: isMobile ? '12px' : '24px 80px', padding: isMobile ? '0' : '20px', width: '100%' }}>
               {HUB_NODES.map((node, i) => {
                 const isActive = node.id === activeId;
                 return (
@@ -290,8 +303,8 @@ export function InteractiveServiceNodeHub() {
                       background: isActive ? 'rgba(227, 25, 55, 0.2)' : 'rgba(20, 20, 20, 0.8)',
                       border: isActive ? '2px solid #E31937' : '1px solid rgba(255,25,55,0.2)',
                       boxShadow: isActive ? '0 0 25px rgba(227, 25, 55, 0.5)' : 'none',
-                      borderRadius: '16px',
-                      padding: '16px 20px',
+                      borderRadius: isMobile ? '12px' : '16px',
+                      padding: isMobile ? '12px 14px' : '16px 20px',
                       cursor: 'pointer',
                       transition: 'all 0.3s ease',
                       display: 'flex',
@@ -502,6 +515,7 @@ export function BeforeAfterCompareSlider() {
 // ───────────────────────────────────────────────────────────────────
 export function ServiceSpotlightHoverAccordion() {
   const [activeIdx, setActiveIdx] = useState(0);
+  const isMobile = useIsMobile();
 
   const panels = [
     { title: 'Commercial Floors', subtitle: '50,000+ SQ FT CAPACITY', img: '/images/project-commercial-floor.png' },
@@ -519,7 +533,7 @@ export function ServiceSpotlightHoverAccordion() {
           </h2>
         </div>
 
-        <div style={{ display: 'flex', gap: '16px', height: '480px' }}>
+        <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '12px' : '16px', height: isMobile ? 'auto' : '480px' }}>
           {panels.map((p, idx) => {
             const isActive = activeIdx === idx;
             return (
@@ -527,7 +541,8 @@ export function ServiceSpotlightHoverAccordion() {
                 key={idx}
                 onMouseEnter={() => setActiveIdx(idx)}
                 style={{
-                  flex: isActive ? 4 : 1,
+                  flex: isMobile ? 'none' : (isActive ? 4 : 1),
+                  height: isMobile ? (isActive ? '280px' : '80px') : 'auto',
                   position: 'relative',
                   borderRadius: '24px',
                   overflow: 'hidden',
@@ -541,7 +556,7 @@ export function ServiceSpotlightHoverAccordion() {
 
                 <div style={{ position: 'absolute', bottom: '32px', left: '32px', right: '32px' }}>
                   <span style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', letterSpacing: '2px', color: '#E31937', fontWeight: 900, textTransform: 'uppercase' }}>{p.subtitle}</span>
-                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: isActive ? '1.8rem' : '1.2rem', fontWeight: 900, color: '#fff', textTransform: 'uppercase', margin: '6px 0 0', whiteSpace: 'nowrap', transition: 'font-size 0.3s' }}>{p.title}</h3>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: isActive ? (isMobile ? '1.4rem' : '1.8rem') : (isMobile ? '1rem' : '1.2rem'), fontWeight: 900, color: '#fff', textTransform: 'uppercase', margin: '6px 0 0', whiteSpace: 'nowrap', transition: 'font-size 0.3s' }}>{p.title}</h3>
                 </div>
               </div>
             );
