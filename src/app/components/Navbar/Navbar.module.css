@@ -217,4 +217,8 @@
   .hamburger {
     display: flex;
   }
+
+  .inner {
+    padding: 0 16px !important;
+  }
 }

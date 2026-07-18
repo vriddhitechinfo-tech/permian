@@ -436,6 +436,11 @@ export default function HomePage() {
         }
       );
 
+      // Force a ScrollTrigger refresh after initial render & layout shifts
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 1000);
+
     }, containerRef);
 
     return () => ctx.revert();
@@ -532,7 +537,7 @@ export default function HomePage() {
         }
       `}</style>
 
-      <div ref={containerRef}>
+      <div ref={containerRef} style={{ overflow: 'hidden', width: '100%', position: 'relative' }}>
 
       {/* SECTION 1: HERO */}
       <section className="hero-section" style={{

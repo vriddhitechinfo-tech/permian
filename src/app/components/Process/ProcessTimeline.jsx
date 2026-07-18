@@ -105,6 +105,8 @@ const STEPS = [
 
 export default function ProcessTimeline() {
   const containerRef = useRef(null);
+  const treeRef = useRef(null);
+  const ctaCardRef = useRef(null);
   const lineRef = useRef(null);
   const ctaProgressRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -119,27 +121,29 @@ export default function ProcessTimeline() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       // 1. Line Progress Animation
-      gsap.fromTo(lineRef.current,
-        { scaleY: 0, transformOrigin: 'top center' },
-        {
-          scaleY: 1, ease: 'none',
-          scrollTrigger: {
-            trigger: '.process-timeline-tree',
-            start: 'top 70%',
-            end: 'bottom 70%',
-            scrub: 1
+      if (treeRef.current) {
+        gsap.fromTo(lineRef.current,
+          { scaleY: 0, transformOrigin: 'top center' },
+          {
+            scaleY: 1, ease: 'none',
+            scrollTrigger: {
+              trigger: treeRef.current,
+              start: 'top 70%',
+              end: 'bottom 70%',
+              scrub: 1
+            }
           }
-        }
-      );
+        );
+      }
 
       // 2. CTA Progress Bar Fill on Scroll into view
-      if (ctaProgressRef.current) {
+      if (ctaProgressRef.current && ctaCardRef.current) {
         gsap.fromTo(ctaProgressRef.current,
           { width: '0%' },
           {
             width: '100%', ease: 'none',
             scrollTrigger: {
-              trigger: '.launch-readiness-card',
+              trigger: ctaCardRef.current,
               start: 'top 90%',
               end: 'top 40%',
               scrub: true
@@ -186,7 +190,7 @@ export default function ProcessTimeline() {
     }, containerRef.current);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
 
   return (
     <section ref={containerRef} style={{ padding: '120px 0', background: '#000000', position: 'relative', overflow: 'hidden' }}>
@@ -206,7 +210,7 @@ export default function ProcessTimeline() {
         </div>
 
         {/* TIMELINE TREE */}
-        <div className="process-timeline-tree" style={{ position: 'relative', minHeight: '800px' }}>
+        <div className="process-timeline-tree" ref={treeRef} style={{ position: 'relative', minHeight: '800px' }}>
           
           {/* Central Vertical Timeline Line */}
           <div style={{
@@ -299,7 +303,7 @@ export default function ProcessTimeline() {
         <ProcessFaqSection />
 
         {/* BOTTOM LAUNCH READINESS CTA BANNER */}
-        <div className="launch-readiness-card" style={{
+        <div className="launch-readiness-card" ref={ctaCardRef} style={{
           marginTop: '100px',
           background: 'rgba(10, 10, 10, 0.95)',
           border: '1px solid rgba(227, 25, 55, 0.35)',
