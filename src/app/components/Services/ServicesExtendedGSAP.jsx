@@ -112,35 +112,48 @@ export function DualRowOpposingScrollMarquee() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Row 1: Moves Left -> Right
-      gsap.fromTo(row1Ref.current,
-        { xPercent: -20 },
+      // Continuous infinite loop — Row 1 moves right to left
+      gsap.to(row1Ref.current, {
+        xPercent: -50,
+        duration: 40,
+        ease: 'none',
+        repeat: -1,
+      });
+
+      // Continuous infinite loop — Row 2 moves left to right
+      gsap.fromTo(row2Ref.current,
+        { xPercent: -50 },
         {
-          xPercent: 10,
+          xPercent: 0,
+          duration: 40,
           ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1
-          }
+          repeat: -1,
         }
       );
 
-      // Row 2: Moves Right -> Left
-      gsap.fromTo(row2Ref.current,
-        { xPercent: 10 },
-        {
-          xPercent: -20,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1
-          }
+      // Scroll boost — speed up row 1 on scroll
+      gsap.to(row1Ref.current, {
+        x: '-=300',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 2
         }
-      );
+      });
+
+      // Scroll boost — speed up row 2 in opposite direction on scroll
+      gsap.to(row2Ref.current, {
+        x: '+=300',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 2
+        }
+      });
     }, sectionRef.current);
 
     return () => ctx.revert();
