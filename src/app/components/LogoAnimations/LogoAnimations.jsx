@@ -975,8 +975,8 @@ export function ImageStackShuffle() {
   };
 
   return (
-    <section ref={sectionRef} style={{ position: 'relative', minHeight: '100vh', padding: '80px 0', background: '#000', borderTop: '1px solid rgba(255,255,255,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 32px', textAlign: 'center', width: '100%' }}>
+    <section ref={sectionRef} style={{ position: 'relative', minHeight: '100vh', background: '#000', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
         <span style={{ fontFamily: 'var(--font-heading)', fontSize: '14px', letterSpacing: '3px', fontWeight: 800, color: '#E31937', textTransform: 'uppercase', display: 'block', marginBottom: '12px' }}>
           ✦ FEATURED BUILDER DECK
         </span>

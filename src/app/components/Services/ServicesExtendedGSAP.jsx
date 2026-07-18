@@ -362,7 +362,8 @@ export function ProjectsInMotionHorizontalScroll() {
   }, [isMobile]);
 
   return (
-    <section ref={targetRef} style={{ background: '#000000', overflow: 'hidden', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+    <section ref={targetRef} style={{ background: '#000000', overflow: 'hidden', minHeight: '100vh' }}>
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%' }}>
       
       {/* SECTION HEADER */}
       <div style={{ maxWidth: '1240px', width: '100%', margin: '0 auto', padding: '40px 32px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -423,6 +424,7 @@ export function ProjectsInMotionHorizontalScroll() {
             </div>
           ))}
         </div>
+      </div>
       </div>
 
     </section>
