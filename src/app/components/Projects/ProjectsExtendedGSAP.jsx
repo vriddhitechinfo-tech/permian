@@ -10,6 +10,17 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < breakpoint);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 const PROJECTS_DATA = [
   { id: 1, title: 'Odessa Energy Distribution Hub', category: 'INDUSTRIAL', psi: '5,000 PSI', sqft: '45,000 SQ FT', desc: 'Heavy structural slab pour for oilfield equipment storage.', img: '/images/commercial-warehouse.png' },
   { id: 2, title: 'Midland Retail Parking Structure', category: 'COMMERCIAL', psi: '4,000 PSI', sqft: '60,000 SQ FT', desc: 'Laser screed poured high-durability parking surface.', img: '/images/parking-lot-forming.png' },
@@ -25,6 +36,7 @@ const PROJECTS_DATA = [
 export function WorkFilterCategoryGrid() {
   const [filter, setFilter] = useState('ALL');
   const gridRef = useRef(null);
+  const isMobile = useIsMobile();
 
   const filteredItems = filter === 'ALL'
     ? PROJECTS_DATA
@@ -52,13 +64,13 @@ export function WorkFilterCategoryGrid() {
             </h2>
           </div>
 
-          <div style={{ display: 'flex', gap: '12px' }}>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             {['ALL', 'COMMERCIAL', 'INDUSTRIAL', 'RESIDENTIAL'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setFilter(tab)}
                 style={{
-                  padding: '10px 22px', borderRadius: '30px',
+                  padding: isMobile ? '8px 14px' : '10px 22px', borderRadius: '30px',
                   background: filter === tab ? '#E31937' : 'rgba(255,255,255,0.05)',
                   border: filter === tab ? '1px solid #E31937' : '1px solid rgba(255,255,255,0.1)',
                   color: '#ffffff', fontFamily: 'var(--font-heading)', fontSize: '0.8rem', fontWeight: 900,
@@ -72,7 +84,7 @@ export function WorkFilterCategoryGrid() {
         </div>
 
         {/* GRID */}
-        <div ref={gridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
+        <div ref={gridRef} style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? '20px' : '32px' }}>
           {filteredItems.map((item) => (
             <div
               key={item.id}
@@ -120,6 +132,7 @@ export function WorkFilterCategoryGrid() {
 // ───────────────────────────────────────────────────────────────────
 export function WorkPinnedStickyOverlappingCards() {
   const containerRef = useRef(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -165,24 +178,24 @@ export function WorkPinnedStickyOverlappingCards() {
               key={i}
               className="sticky-deck-card"
               style={{
-                position: 'sticky', top: '120px',
+                position: 'sticky', top: isMobile ? '80px' : '120px',
                 background: 'rgba(12, 12, 12, 0.98)',
                 border: '1px solid rgba(227, 25, 55, 0.3)',
-                borderRadius: '28px', padding: '40px',
-                display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '40px', alignItems: 'center',
+                borderRadius: isMobile ? '20px' : '28px', padding: isMobile ? '24px' : '40px',
+                display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.2fr 1fr', gap: isMobile ? '20px' : '40px', alignItems: 'center',
                 boxShadow: '0 30px 80px rgba(0,0,0,0.95)'
               }}
             >
               <div>
                 <span style={{ fontFamily: 'var(--font-heading)', fontSize: '12px', fontWeight: 900, color: '#E31937', letterSpacing: '2px', textTransform: 'uppercase' }}>{card.step} — {card.cat}</span>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '2rem', fontWeight: 900, color: '#fff', textTransform: 'uppercase', margin: '12px 0' }}>{card.title}</h3>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: isMobile ? '1.3rem' : '2rem', fontWeight: 900, color: '#fff', textTransform: 'uppercase', margin: '12px 0' }}>{card.title}</h3>
                 <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', color: 'rgba(255,255,255,0.65)', lineHeight: 1.6, marginBottom: '24px' }}>{card.desc}</p>
                 <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 28px', borderRadius: '30px', background: '#E31937', color: '#fff', fontFamily: 'var(--font-heading)', fontSize: '0.85rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '1px' }}>
                   Request Similar Project →
                 </Link>
               </div>
 
-              <div style={{ position: 'relative', height: '320px', borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <div style={{ position: 'relative', height: isMobile ? '200px' : '320px', borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <Image src={card.img} alt={card.title} fill style={{ objectFit: 'cover' }} quality={85} />
               </div>
             </div>
@@ -199,6 +212,7 @@ export function WorkPinnedStickyOverlappingCards() {
 // ───────────────────────────────────────────────────────────────────
 export function WorkSpecMatrixCounter() {
   const sectionRef = useRef(null);
+  const isMobile = useIsMobile();
 
   return (
     <section ref={sectionRef} style={{ position: 'relative', padding: '140px 0', background: '#000000', overflow: 'hidden' }}>
@@ -207,7 +221,7 @@ export function WorkSpecMatrixCounter() {
       </div>
 
       <div style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '0 32px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '32px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: isMobile ? '16px' : '32px' }}>
           {[
             { val: '4,500+', label: 'COMPRESSIVE PSI STRENGTH' },
             { val: '98%', label: 'CALICHE COMPACTION DENSITY' },
