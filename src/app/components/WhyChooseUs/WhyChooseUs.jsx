@@ -138,7 +138,7 @@ export default function WhyChooseUs() {
           <h2 ref={headingRef} className={styles.heading}>
             {HEADING_TEXT.split(' ').map((word, i) => (
               <span key={i} className={styles.word}>
-                {word}
+                {word}{' '}
               </span>
             ))}
           </h2>

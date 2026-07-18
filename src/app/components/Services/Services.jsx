@@ -126,7 +126,7 @@ export default function Services() {
             <span className={styles.headingText}>
               {HEADING_TEXT.split(' ').map((word, i) => (
                 <span key={i} className={styles.word}>
-                  {word}
+                  {word}{' '}
                 </span>
               ))}
             </span>

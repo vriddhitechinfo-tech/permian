@@ -49,7 +49,7 @@ export default function Navbar() {
 
     if (menuOpen) {
       document.body.style.overflow = 'hidden';
-      gsap.set(mobileOverlayRef.current, { display: 'flex' });
+      gsap.set(mobileOverlayRef.current, { display: 'flex', visibility: 'visible', pointerEvents: 'all' });
       gsap.to(mobileOverlayRef.current, { opacity: 1, duration: 0.3, ease: 'power2.out' });
       gsap.fromTo(links, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, stagger: 0.06, ease: 'power3.out', delay: 0.1 });
     } else {
@@ -57,7 +57,11 @@ export default function Navbar() {
       gsap.to(links, { opacity: 0, y: 10, duration: 0.2, ease: 'power3.in' });
       gsap.to(mobileOverlayRef.current, {
         opacity: 0, duration: 0.25, ease: 'power2.in',
-        onComplete: () => { if (mobileOverlayRef.current) gsap.set(mobileOverlayRef.current, { display: 'none' }); },
+        onComplete: () => { 
+          if (mobileOverlayRef.current) {
+            gsap.set(mobileOverlayRef.current, { display: 'none', visibility: 'hidden', pointerEvents: 'none' }); 
+          }
+        },
       });
     }
   }, [menuOpen]);
@@ -82,7 +86,7 @@ export default function Navbar() {
           </Link>
 
           {/* Center nav */}
-          <div className={styles.centerNav}>
+          <div className={styles.capsuleNav}>
             {NAV_ITEMS.map(({ label, href }) => (
               <Link
                 key={href}
@@ -95,7 +99,7 @@ export default function Navbar() {
           </div>
 
           {/* CTA + hamburger */}
-          <div className={styles.rightSide}>
+          <div className={styles.rightActions}>
             <Link href="/contact" className={styles.cta}>Get a Quote</Link>
             <button
               className={[styles.hamburger, menuOpen ? styles.hamburgeropen : ''].join(' ')}
