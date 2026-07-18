@@ -1,5 +1,4 @@
 import ProcessTimeline from '@/app/components/Process/ProcessTimeline';
-import Process from '@/app/components/Process/Process';
 
 export const metadata = {
   title: 'Our Concrete Process | Permian Concrete',
@@ -10,7 +9,6 @@ export default function ProcessPage() {
   return (
     <main>
       <ProcessTimeline />
-      <Process />
     </main>
   );
 }

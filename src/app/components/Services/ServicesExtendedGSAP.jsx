@@ -355,6 +355,7 @@ export function InteractiveServiceNodeHub() {
 export function ProjectsInMotionHorizontalScroll() {
   const targetRef = useRef(null);
   const trackRef = useRef(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -394,7 +395,7 @@ export function ProjectsInMotionHorizontalScroll() {
 
       {/* HORIZONTAL SCROLL TRACK */}
       <div style={{ overflow: 'hidden', padding: '20px 0 60px' }}>
-        <div ref={trackRef} style={{ display: 'flex', gap: '36px', paddingLeft: '32px', willChange: 'transform' }}>
+        <div ref={trackRef} style={{ display: 'flex', gap: isMobile ? '20px' : '36px', paddingLeft: '32px', willChange: 'transform' }}>
           {[
             { id: 1, title: 'Permian Energy Logistics Hub', cat: 'INDUSTRIAL', desc: 'Heavy-duty 5,000 PSI concrete slab pour engineered for heavy machinery and transport trucks.', img: '/images/commercial-warehouse.png' },
             { id: 2, title: 'Midland Retail Plaza Subgrade', cat: 'COMMERCIAL', desc: 'Precision laser transit formwork with Grade-60 rebar grid on chairs.', img: '/images/parking-lot-forming.png' },
@@ -403,8 +404,8 @@ export function ProjectsInMotionHorizontalScroll() {
             { id: 5, title: 'West Texas Entry Driveway', cat: 'RESIDENTIAL', desc: 'Durable residential driveway with expansion saw-cut joints.', img: '/images/residential-driveway.png' },
           ].map((item) => (
             <div key={item.id} style={{
-              width: '540px',
-              height: '500px',
+              width: isMobile ? '290px' : '540px',
+              height: isMobile ? '385px' : '500px',
               flexShrink: 0,
               background: 'rgba(12, 12, 12, 0.95)',
               border: '1px solid rgba(227, 25, 55, 0.25)',
@@ -415,7 +416,7 @@ export function ProjectsInMotionHorizontalScroll() {
               boxShadow: '0 25px 60px rgba(0,0,0,0.9)',
               position: 'relative'
             }}>
-              <div style={{ position: 'relative', height: '280px', width: '100%' }}>
+              <div style={{ position: 'relative', height: isMobile ? '180px' : '280px', width: '100%' }}>
                 <Image src={item.img} alt={item.title} fill style={{ objectFit: 'cover' }} quality={85} />
                 <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
                   <span style={{ fontFamily: 'var(--font-heading)', fontSize: '10px', fontWeight: 900, letterSpacing: '2px', color: '#E31937', background: 'rgba(0,0,0,0.85)', border: '1px solid #E31937', padding: '6px 14px', borderRadius: '20px', textTransform: 'uppercase' }}>
@@ -424,12 +425,12 @@ export function ProjectsInMotionHorizontalScroll() {
                 </div>
               </div>
 
-              <div style={{ padding: '28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
+              <div style={{ padding: isMobile ? '16px' : '28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
                 <div>
-                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.35rem', fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', margin: '0 0 10px' }}>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: isMobile ? '1.05rem' : '1.35rem', fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', margin: '0 0 10px' }}>
                     {item.title}
                   </h3>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.94rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.5, margin: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: isMobile ? '0.82rem' : '0.94rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.5, margin: 0 }}>
                     {item.desc}
                   </p>
                 </div>

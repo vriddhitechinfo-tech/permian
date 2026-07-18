@@ -221,14 +221,14 @@ export function WorkSpecMatrixCounter() {
       </div>
 
       <div style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '0 32px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: isMobile ? '16px' : '32px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: isMobile ? '16px' : '32px' }}>
           {[
             { val: '4,500+', label: 'COMPRESSIVE PSI STRENGTH' },
             { val: '98%', label: 'CALICHE COMPACTION DENSITY' },
             { val: '500,000+', label: 'TOTAL SQ FT POURED' },
             { val: '100%', label: 'ON-TIME DISPATCH GUARANTEE' }
           ].map((stat, i) => (
-            <div key={i} style={{ background: 'rgba(10,10,10,0.85)', border: '1px solid rgba(227,25,55,0.3)', borderRadius: '24px', padding: '40px 24px', textAlign: 'center', boxShadow: '0 20px 50px rgba(0,0,0,0.8)' }}>
+            <div key={i} style={{ background: 'rgba(10,10,10,0.85)', border: '1px solid rgba(227,25,55,0.3)', borderRadius: '24px', padding: isMobile ? '30px 16px' : '40px 24px', textAlign: 'center', boxShadow: '0 20px 50px rgba(0,0,0,0.8)' }}>
               <span style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', fontWeight: 900, color: '#E31937', display: 'block', marginBottom: '8px' }}>
                 {stat.val}
               </span>

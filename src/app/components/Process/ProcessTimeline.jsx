@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -12,54 +13,92 @@ if (typeof window !== 'undefined') {
 const STEPS = [
   {
     num: '01',
-    timeframe: 'DAY 1',
-    icon: '💬',
-    title: '01 Discovery & Site Survey',
-    desc: 'We start with a deep-dive site inspection to analyze your soil density, slope pitch, and structural load requirements before any work begins.',
+    phase: 'PREPARATION & TESTING',
+    timeframe: 'Day 1 Morning',
+    icon: '🏗️',
+    title: 'Site Survey & Caliche Soil Testing',
+    desc: 'We inspect soil density and compaction. In West Texas, caliche and sandy soil require precise subgrade leveling and moisture conditioning before any formwork begins.',
     bullets: [
-      '30-minute site consultation & assessment',
-      'Caliche base soil test & laser transit level',
-      'Fixed, transparent quote & clear roadmap'
+      'Subgrade compaction testing (95% Standard Proctor)',
+      'Laser transit slope & elevation mapping',
+      'Excavation of loose topsoil & debris'
     ],
+    img: '/images/before-commercial-subgrade.png',
     align: 'left'
   },
   {
     num: '02',
-    timeframe: 'DAY 2',
+    phase: 'FORMWORK & GRADING',
+    timeframe: 'Day 1 Afternoon',
     icon: '📐',
-    title: '02 Subgrade Prep & Formwork',
-    desc: 'Our crew excavates loose topsoil, compacts West Texas caliche base to 98% density, and sets heavy-duty steel forms with optical transit levels.',
+    title: 'Precision Formwork & Laser Transit',
+    desc: 'Steel & wooden forms are staked and locked using optical laser levels to ensure exact slope for water drainage away from your structure.',
     bullets: [
-      '98% Standard Proctor caliche compaction',
-      'Laser-guided form setting for water runoff',
-      'Grade-60 steel rebar matrix tied on chairs'
+      'Optical laser transit leveling',
+      'Double-staked steel form bracing',
+      'Drainage pitch calculation (min 1/4" per foot)'
     ],
+    img: '/images/parking-lot-forming.png',
     align: 'right'
   },
   {
     num: '03',
-    timeframe: 'DAY 3',
-    icon: '🏗️',
-    title: '03 High-PSI Concrete Pour',
-    desc: 'Custom 3,500 - 4,500+ PSI engineered concrete mix dispatched on schedule, laser-screeded flat, and power-troweled for ultimate density.',
+    phase: 'REINFORCEMENT',
+    timeframe: 'Day 2 Morning',
+    icon: '⚡',
+    title: 'Grade-60 Rebar Grid & Chairs',
+    desc: 'We tie a heavy-duty #4 (1/2") or #5 Grade-60 rebar matrix spaced at 12" to 18" centers, elevated on rebar chairs so the steel sits exactly in the center of the pour.',
     bullets: [
-      '4,000+ PSI fiber-reinforced concrete dispatch',
-      'Somero laser screed precision flattening',
-      'Multi-pass power trowel or broom finish'
+      '#4 / #5 Grade-60 rebar grid',
+      'Heavy-duty plastic chairs for center elevation',
+      'Vapor barrier installation for indoor slabs'
     ],
+    img: '/images/before-warehouse-rebar.png',
     align: 'left'
   },
   {
     num: '04',
-    timeframe: 'DAY 4+',
-    icon: '🚀',
-    title: '04 Curing & Quality Sign-Off',
-    desc: 'Liquid chemical hydration seal applied immediately to double curing strength, followed by early-entry diamond sawed control joints to prevent cracks.',
+    phase: 'BATCH & DISPATCH',
+    timeframe: 'Day 2 Pouring',
+    icon: '🚛',
+    title: 'Custom High-PSI Concrete Dispatch',
+    desc: 'We specify custom 4,000+ PSI mix designs with fiber mesh reinforcement and retarder additives to handle the West Texas summer heat during delivery.',
     bullets: [
-      'Hydration membrane chemical seal spray',
-      'Precision diamond-blade sawed control joints',
-      'Final quality audit & workmanship warranty sign-off'
+      '4,000 - 5,000 PSI engineered mix',
+      'Polypropylene synthetic fiber reinforcement',
+      'Slump & temperature verification on site'
     ],
+    img: '/images/industrial-concrete-pour.png',
+    align: 'right'
+  },
+  {
+    num: '05',
+    phase: 'PLACEMENT & SCREEDING',
+    timeframe: 'Day 2 Finishing',
+    icon: '✨',
+    title: 'Laser Screeding & Power Trowel',
+    desc: 'Using Somero laser screeds and ride-on power trowels, we consolidate the concrete and achieve glass-smooth or slip-resistant broom finishes.',
+    bullets: [
+      'Laser-guided vibratory screeding',
+      'Multi-pass power trowel finishing',
+      'Broom or polished finish option'
+    ],
+    img: '/images/commercial-laser-screed.png',
+    align: 'left'
+  },
+  {
+    num: '06',
+    phase: 'CURING & JOINTS',
+    timeframe: 'Day 3 & Beyond',
+    icon: '🛡️',
+    title: 'Hydration Sealing & Expansion Control Joints',
+    desc: 'Early-entry saw cuts prevent random cracking while a deep-penetrating liquid curing compound locks in moisture for maximum 28-day compressive strength.',
+    bullets: [
+      'Precision diamond-blade sawed control joints',
+      'Chemical membrane curing seal application',
+      'Final inspection & clean site handover'
+    ],
+    img: '/images/after-commercial-floor.png',
     align: 'right'
   }
 ];
@@ -68,6 +107,14 @@ export default function ProcessTimeline() {
   const containerRef = useRef(null);
   const lineRef = useRef(null);
   const ctaProgressRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 800);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -120,11 +167,17 @@ export default function ProcessTimeline() {
           { opacity: 0, x: isLeft ? -60 : 60 },
           { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' },
           0
-        ).fromTo(num,
-          { opacity: 0, scale: 0.7 },
-          { opacity: 1, scale: 1, duration: 0.9, ease: 'back.out(1.4)' },
-          0.1
-        ).fromTo(node,
+        );
+
+        if (num) {
+          tl.fromTo(num,
+            { opacity: 0, scale: 0.7 },
+            { opacity: 1, scale: 1, duration: 0.9, ease: 'back.out(1.4)' },
+            0.1
+          );
+        }
+
+        tl.fromTo(node,
           { scale: 0, boxShadow: '0 0 0px #E31937' },
           { scale: 1, boxShadow: '0 0 25px #E31937', duration: 0.5, ease: 'back.out(2)' },
           0.2
@@ -148,7 +201,7 @@ export default function ProcessTimeline() {
             Our <span style={{ color: '#E31937' }}>Process</span>
           </h2>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', color: 'rgba(255, 255, 255, 0.6)', maxWidth: '640px', margin: '0 auto', lineHeight: 1.7 }}>
-            A streamlined 4-step journey from concept to a live, high-performing concrete pour — typically within 3–5 days. Scroll to walk the timeline.
+            A streamlined 6-step journey from concept to a live, high-performing concrete pour — typically within 3–5 days. Scroll to walk the timeline.
           </p>
         </div>
 
@@ -156,7 +209,16 @@ export default function ProcessTimeline() {
         <div className="process-timeline-tree" style={{ position: 'relative', minHeight: '800px' }}>
           
           {/* Central Vertical Timeline Line */}
-          <div style={{ position: 'absolute', top: '40px', bottom: '100px', left: '50%', width: '2px', background: 'rgba(255,255,255,0.08)', transform: 'translateX(-50%)', zIndex: 1 }}>
+          <div style={{
+            position: 'absolute',
+            top: '40px',
+            bottom: '100px',
+            left: isMobile ? '24px' : '50%',
+            width: '2px',
+            background: 'rgba(255,255,255,0.08)',
+            transform: isMobile ? 'none' : 'translateX(-50%)',
+            zIndex: 1
+          }}>
             <div ref={lineRef} style={{ width: '100%', height: '100%', background: 'linear-gradient(180deg, #E31937 0%, #ff4d6d 100%)', boxShadow: '0 0 12px #E31937' }} />
           </div>
 
@@ -168,7 +230,16 @@ export default function ProcessTimeline() {
               <div
                 key={s.num}
                 className={`process-step-row ${isLeft ? 'step-row-left' : 'step-row-right'}`}
-                style={{
+                style={isMobile ? {
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  paddingLeft: '56px',
+                  marginBottom: '60px',
+                  position: 'relative',
+                  zIndex: 2,
+                  width: '100%'
+                } : {
                   display: 'grid',
                   gridTemplateColumns: '1fr 80px 1fr',
                   alignItems: 'center',
@@ -178,22 +249,41 @@ export default function ProcessTimeline() {
                 }}
               >
                 {/* LEFT COLUMN */}
-                <div style={{ display: 'flex', justifyContent: isLeft ? 'flex-end' : 'flex-start' }}>
-                  {isLeft ? (
-                    <StepCard step={s} />
-                  ) : (
-                    <WatermarkNum num={s.num} align="right" />
-                  )}
-                </div>
+                {!isMobile && (
+                  <div style={{ display: 'flex', justifyContent: isLeft ? 'flex-end' : 'flex-start' }}>
+                    {isLeft ? (
+                      <StepCard step={s} />
+                    ) : (
+                      <WatermarkNum num={s.num} align="right" />
+                    )}
+                  </div>
+                )}
 
                 {/* CENTER TIMELINE NODE */}
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div style={isMobile ? {
+                  position: 'absolute',
+                  left: '24px',
+                  top: '36px',
+                  transform: 'translateX(-50%)',
+                  zIndex: 5
+                } : {
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
                   <div className="process-step-node" style={{ width: '18px', height: '18px', borderRadius: '50%', background: '#E31937', border: '3px solid #000000', zIndex: 5 }} />
                 </div>
 
                 {/* RIGHT COLUMN */}
-                <div style={{ display: 'flex', justifyContent: !isLeft ? 'flex-start' : 'flex-end' }}>
-                  {!isLeft ? (
+                <div style={isMobile ? {
+                  width: '100%'
+                } : {
+                  display: 'flex',
+                  justifyContent: !isLeft ? 'flex-start' : 'flex-end'
+                }}>
+                  {isMobile ? (
+                    <StepCard step={s} />
+                  ) : !isLeft ? (
                     <StepCard step={s} />
                   ) : (
                     <WatermarkNum num={s.num} align="left" />
@@ -205,9 +295,12 @@ export default function ProcessTimeline() {
 
         </div>
 
+        {/* PROCESS FAQS */}
+        <ProcessFaqSection />
+
         {/* BOTTOM LAUNCH READINESS CTA BANNER */}
         <div className="launch-readiness-card" style={{
-          marginTop: '60px',
+          marginTop: '100px',
           background: 'rgba(10, 10, 10, 0.95)',
           border: '1px solid rgba(227, 25, 55, 0.35)',
           borderRadius: '28px',
@@ -297,26 +390,47 @@ function StepCard({ step }) {
       {/* Top Red Glow Accent Bar */}
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, #E31937, rgba(227,25,55,0.2))' }} />
 
-      {/* Header Row: Icon Badge & Timeframe Pill */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-        <div style={{ width: '44px', height: '44px', borderRadius: '14px', background: 'rgba(227, 25, 55, 0.15)', border: '1px solid rgba(227, 25, 55, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>
-          {step.icon}
-        </div>
-        <span style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', fontWeight: 900, letterSpacing: '2px', color: 'rgba(255,255,255,0.5)', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '6px 14px', borderRadius: '20px', textTransform: 'uppercase' }}>
+      {/* Header Row: Phase Tag & Timeframe Pill */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', gap: '12px' }}>
+        <span style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', fontWeight: 900, letterSpacing: '1.5px', color: '#E31937', textTransform: 'uppercase' }}>
+          {step.phase}
+        </span>
+        <span style={{ fontFamily: 'var(--font-body)', fontSize: '11px', fontWeight: 900, letterSpacing: '1px', color: 'rgba(255,255,255,0.5)', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '6px 14px', borderRadius: '20px', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
           {step.timeframe}
         </span>
       </div>
 
       {/* Step Title */}
-      <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', marginBottom: '12px' }}>
-        <span style={{ color: '#E31937', marginRight: '8px' }}>{step.num}</span>
-        {step.title.replace(/^\d+\s*/, '')}
+      <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.35rem', fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <span style={{ fontSize: '20px' }}>{step.icon}</span>
+        <span>{step.title}</span>
       </h3>
 
       {/* Description */}
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.96rem', color: 'rgba(255, 255, 255, 0.65)', lineHeight: 1.6, marginBottom: '24px' }}>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.96rem', color: 'rgba(255, 255, 255, 0.65)', lineHeight: 1.6, marginBottom: '20px' }}>
         {step.desc}
       </p>
+
+      {/* Image Preview */}
+      {step.img && (
+        <div style={{
+          position: 'relative',
+          width: '100%',
+          height: '180px',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          marginBottom: '20px',
+          border: '1px solid rgba(255, 255, 255, 0.05)'
+        }}>
+          <Image
+            src={step.img}
+            alt={step.title}
+            fill
+            style={{ objectFit: 'cover' }}
+            sizes="(max-width: 768px) 100vw, 40vw"
+          />
+        </div>
+      )}
 
       {/* Bullet Checklist */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
@@ -360,6 +474,86 @@ function WatermarkNum({ num, align }) {
       }}
     >
       {num}
+    </div>
+  );
+}
+
+// ── Helper Component: Process Specific FAQs ──────────────────────────
+function ProcessFaqSection() {
+  const [openFaq, setOpenFaq] = useState(null);
+
+  const faqs = [
+    {
+      q: 'How long before I can drive on my new concrete driveway?',
+      a: 'We recommend waiting 24-48 hours for foot traffic, 7 days for passenger vehicles, and 28 days for heavy trucks or equipment.'
+    },
+    {
+      q: 'Why is rebar placed on chairs instead of laid on the ground?',
+      a: 'Rebar on the ground provides zero tensile strength. Raising rebar on chairs positions the steel in the middle third of the slab where it resists tension forces.'
+    },
+    {
+      q: 'What PSI concrete do you use for commercial shop floors?',
+      a: 'We pour 4,000 to 5,000 PSI concrete mixed with synthetic fiber mesh for high load capacity and abrasion resistance in heavy equipment shops.'
+    },
+    {
+      q: 'How do you handle hot West Texas summer pours?',
+      a: 'We use hydration-retarding admixtures, iced mix water, and early morning pour schedules to control setting times and eliminate cold joints.'
+    }
+  ];
+
+  return (
+    <div className="faq-section" style={{ maxWidth: '800px', margin: '120px auto 0' }}>
+      <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+        <span style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', fontWeight: 800, color: '#E31937', letterSpacing: '2px' }}>
+          GOT QUESTIONS?
+        </span>
+        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '2.2rem', fontWeight: 900, color: '#ffffff', marginTop: '8px', textTransform: 'uppercase' }}>
+          Frequently Asked Questions
+        </h2>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        {faqs.map((faq, i) => {
+          const isOpen = openFaq === i;
+          return (
+            <div
+              key={i}
+              className="faq-item"
+              onClick={() => setOpenFaq(isOpen ? null : i)}
+              style={{
+                background: isOpen ? 'rgba(227, 25, 55, 0.05)' : 'rgba(12, 12, 12, 0.6)',
+                border: isOpen ? '1px solid #E31937' : '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '14px',
+                padding: '20px 24px',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '16px', fontWeight: 800, color: '#ffffff', margin: 0, textTransform: 'uppercase' }}>
+                  {faq.q}
+                </h3>
+                <span style={{ fontSize: '20px', fontWeight: 'bold', color: '#E31937' }}>
+                  {isOpen ? '−' : '+'}
+                </span>
+              </div>
+              {isOpen && (
+                <p style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '14px',
+                  color: 'rgba(255, 255, 255, 0.65)',
+                  lineHeight: 1.6,
+                  marginTop: '14px',
+                  paddingTop: '14px',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.06)'
+                }}>
+                  {faq.a}
+                </p>
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

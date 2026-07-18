@@ -9,6 +9,18 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// Hook to detect mobile viewport
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < breakpoint);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 // ── Builder Logos SVGs ──────────────────────────────────────────────
 const builderLogos = [
   {
@@ -102,6 +114,7 @@ const builderLogos = [
 // ───────────────────────────────────────────────────────────────────
 export function ImageClipPathUnveil() {
   const sectionRef = useRef(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -143,18 +156,18 @@ export function ImageClipPathUnveil() {
           </h2>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? '20px' : '32px' }}>
           {builderLogos.slice(0, 3).map((b) => (
-            <div key={b.id} className="clip-reveal-card" style={{ position: 'relative', height: '440px', borderRadius: '24px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <div key={b.id} className="clip-reveal-card" style={{ position: 'relative', height: isMobile ? '380px' : '440px', borderRadius: '24px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
               <div className="clip-reveal-img" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
                 <Image src={b.img} alt={b.name} fill style={{ objectFit: 'cover' }} quality={85} />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 60%)' }} />
               </div>
 
-              <div className="clip-reveal-badge" style={{ position: 'absolute', bottom: '24px', left: '24px', right: '24px', zIndex: 5, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(227,25,55,0.35)', borderRadius: '18px', padding: '20px' }}>
-                <div style={{ width: '150px', height: '40px', marginBottom: '12px' }}>{b.svg}</div>
-                <span style={{ fontFamily: 'var(--font-heading)', fontSize: '12px', fontWeight: 900, letterSpacing: '2px', color: '#E31937', textTransform: 'uppercase', display: 'block' }}>{b.badge}</span>
-                <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '20px', fontWeight: 900, color: '#fff', textTransform: 'uppercase', margin: '4px 0 0' }}>{b.name}</h4>
+              <div className="clip-reveal-badge" style={{ position: 'absolute', bottom: isMobile ? '16px' : '24px', left: isMobile ? '16px' : '24px', right: isMobile ? '16px' : '24px', zIndex: 5, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(227,25,55,0.35)', borderRadius: '18px', padding: isMobile ? '14px' : '20px' }}>
+                <div style={{ width: isMobile ? '120px' : '150px', height: isMobile ? '32px' : '40px', marginBottom: '10px' }}>{b.svg}</div>
+                <span style={{ fontFamily: 'var(--font-heading)', fontSize: isMobile ? '10px' : '12px', fontWeight: 900, letterSpacing: '2px', color: '#E31937', textTransform: 'uppercase', display: 'block' }}>{b.badge}</span>
+                <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: isMobile ? '16px' : '20px', fontWeight: 900, color: '#fff', textTransform: 'uppercase', margin: '4px 0 0' }}>{b.name}</h4>
               </div>
             </div>
           ))}
@@ -655,8 +668,10 @@ export function ImageCursorFollower() {
   const floatRef = useRef(null);
   const [activeImg, setActiveImg] = useState('/images/commercial-warehouse.png');
   const [isHovered, setIsHovered] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
+    if (isMobile) return;
     const handleMouseMove = (e) => {
       if (!floatRef.current) return;
       gsap.to(floatRef.current, {
@@ -667,28 +682,30 @@ export function ImageCursorFollower() {
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [isMobile]);
 
   return (
     <section
       ref={sectionRef}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => !isMobile && setIsHovered(true)}
+      onMouseLeave={() => !isMobile && setIsHovered(false)}
       style={{ padding: '100px 0', background: '#080808', position: 'relative', overflow: 'hidden' }}
     >
-      <div
-        ref={floatRef}
-        style={{
-          position: 'fixed', top: 0, left: 0, width: '380px', height: '250px',
-          borderRadius: '20px', overflow: 'hidden', border: '2px solid #E31937',
-          pointerEvents: 'none', zIndex: 99,
-          boxShadow: '0 30px 70px rgba(227, 25, 55, 0.45), 0 10px 30px rgba(0,0,0,0.9)',
-          opacity: isHovered ? 1 : 0,
-          transition: 'opacity 0.3s ease-in-out'
-        }}
-      >
-        <Image src={activeImg} alt="Preview" fill style={{ objectFit: 'cover' }} quality={90} />
-      </div>
+      {!isMobile && (
+        <div
+          ref={floatRef}
+          style={{
+            position: 'fixed', top: 0, left: 0, width: '380px', height: '250px',
+            borderRadius: '20px', overflow: 'hidden', border: '2px solid #E31937',
+            pointerEvents: 'none', zIndex: 99,
+            boxShadow: '0 30px 70px rgba(227, 25, 55, 0.45), 0 10px 30px rgba(0,0,0,0.9)',
+            opacity: isHovered ? 1 : 0,
+            transition: 'opacity 0.3s ease-in-out'
+          }}
+        >
+          <Image src={activeImg} alt="Preview" fill style={{ objectFit: 'cover' }} quality={90} />
+        </div>
+      )}
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 32px' }}>
         <div style={{ textAlign: 'center', marginBottom: '64px' }}>
@@ -704,18 +721,21 @@ export function ImageCursorFollower() {
           {builderLogos.map((b) => (
             <div
               key={b.id}
-              onMouseEnter={() => setActiveImg(b.img)}
+              onMouseEnter={() => !isMobile && setActiveImg(b.img)}
               style={{
                 background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
-                borderRadius: '16px', padding: '24px 32px', display: 'flex', alignItems: 'center',
-                justifyContent: 'space-between', cursor: 'pointer', transition: 'border-color 0.3s'
+                borderRadius: '16px', padding: isMobile ? '20px' : '24px 32px', display: 'flex',
+                flexDirection: isMobile ? 'column' : 'row',
+                alignItems: isMobile ? 'flex-start' : 'center',
+                justifyContent: 'space-between', gap: isMobile ? '12px' : '24px',
+                cursor: 'pointer', transition: 'border-color 0.3s'
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-                <div style={{ width: '150px', height: '40px' }}>{b.svg}</div>
-                <span style={{ fontFamily: 'var(--font-heading)', fontSize: '20px', fontWeight: 900, color: '#fff', textTransform: 'uppercase' }}>{b.name}</span>
+              <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center', gap: isMobile ? '12px' : '24px', width: isMobile ? '100%' : 'auto' }}>
+                <div style={{ width: '130px', height: '36px', flexShrink: 0 }}>{b.svg}</div>
+                <span style={{ fontFamily: 'var(--font-heading)', fontSize: isMobile ? '16px' : '20px', fontWeight: 900, color: '#fff', textTransform: 'uppercase' }}>{b.name}</span>
               </div>
-              <span style={{ fontFamily: 'var(--font-heading)', fontSize: '14px', color: '#E31937', letterSpacing: '2px', fontWeight: 800 }}>{b.badge} →</span>
+              <span style={{ fontFamily: 'var(--font-heading)', fontSize: isMobile ? '12px' : '14px', color: '#E31937', letterSpacing: '2px', fontWeight: 800, alignSelf: isMobile ? 'flex-end' : 'auto' }}>{b.badge} →</span>
             </div>
           ))}
         </div>
@@ -870,6 +890,7 @@ export function ImageStackShuffle() {
   const deckRef = useRef(null);
   const [cards, setCards] = useState([0, 1, 2, 3, 4]);
   const [animating, setAnimating] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -891,7 +912,7 @@ export function ImageStackShuffle() {
         if (i < total - 1) {
           // Throw current top card to the right and fade out as scroll progresses
           tl.to(card, {
-            x: 380,
+            x: isMobile ? 290 : 380,
             rotateZ: 30,
             opacity: 0,
             scale: 0.85,
@@ -903,7 +924,7 @@ export function ImageStackShuffle() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
 
   const handleShuffle = () => {
     if (animating) return;
@@ -937,7 +958,7 @@ export function ImageStackShuffle() {
         <div
           ref={deckRef}
           onClick={handleShuffle}
-          style={{ position: 'relative', height: '460px', width: '350px', margin: '0 auto', cursor: 'pointer', perspective: '1000px' }}
+          style={{ position: 'relative', height: isMobile ? '380px' : '460px', width: isMobile ? '280px' : '350px', margin: '0 auto', cursor: 'pointer', perspective: '1000px' }}
         >
           {cards.map((idx, pos) => {
             const b = builderLogos[idx % builderLogos.length];

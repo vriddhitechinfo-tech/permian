@@ -511,6 +511,7 @@ export default function HomePage() {
           .timeline-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .comp-grid-box { grid-template-columns: 1fr !important; gap: 24px !important; }
           .vs-badge { display: none !important; }
+          .why-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
         }
 
         /* Mobile (max-width: 640px) */
@@ -527,6 +528,7 @@ export default function HomePage() {
           .comp-grid-box { grid-template-columns: 1fr !important; }
           .transform-slider-box { height: 260px !important; }
           .slider-reveal > div { min-width: 640px !important; height: 260px !important; }
+          .why-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
 
@@ -1280,7 +1282,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+          <div className="why-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
             {WHY_CARDS.map((card, idx) => (
               <div key={idx} className="why-card" style={{
                 background: '#000000', border: '1px solid rgba(255, 25, 55, 0.05)',

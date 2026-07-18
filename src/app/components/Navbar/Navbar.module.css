@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   height: 80px;
-  z-index: 1000;
+  z-index: 100000 !important;
   display: flex;
   align-items: center;
   background: transparent;
@@ -80,7 +80,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  z-index: 1010;
+  z-index: 100002 !important;
 }
 
 .cta {
@@ -119,7 +119,7 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 1010;
+  z-index: 100002 !important;
 }
 
 .hamburger:focus {
@@ -153,7 +153,7 @@
   width: 100%;
   height: 100vh;
   background-color: #000000;
-  z-index: 1000;
+  z-index: 100001 !important;
   display: flex;
   flex-direction: column;
   align-items: center;
